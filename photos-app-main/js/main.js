@@ -39,10 +39,6 @@ const userPhotosDescriptions = [
   `Очаровуючий знімок, де кольори стають головними героями і створюють неповторну симфонію естетики.`,
 ];
 
-const usersComments = new Array(20)
-  .fill(null)
-  .map((el, i) => getUsersComments(i));
-
 const usersPhotos = new Array(25)
   .fill(null)
   .map((el, i) => getUsersPhotosObject(i));
@@ -53,17 +49,27 @@ function getUsersPhotosObject(i) {
     url: `photos/${i + 1}`,
     description: createRandomUserPhotosDescription(),
     likes: createRandomLikesCount(),
-    comments: usersComments,
+    comments: getUsersComments(),
   };
 }
 
-function getUsersComments(i) {
-  return {
-    id: createRandomCommentId(i),
-    avatar: createRandomAvatar(),
-    message: createRandomCommentMessage(),
-    name: createRandomCommentUserName(),
-  };
+function getUsersComments() {
+  const usersComments = [];
+  const maxCommentsCount = 20;
+  const usedIds = new Set();
+  while (usersComments.length < maxCommentsCount) {
+    const id = createRandomCommentId();
+    if (!usedIds.has(id)) {
+      usedIds.add(id);
+      usersComments.push({
+        id,
+        avatar: createRandomAvatar(),
+        message: createRandomCommentMessage(),
+        name: createRandomCommentUserName(),
+      });
+    }
+  }
+  return usersComments;
 }
 
 function createRandomLikesCount() {
@@ -75,12 +81,12 @@ function createRandomLikesCount() {
 }
 
 function createRandomAvatar() {
-  const minPhotoId = 1;
-  const maxPhotoId = 7;
-  const randomPhotoId = Math.floor(
-    Math.random() * (maxPhotoId - minPhotoId) + minPhotoId
+  const minAvatarId = 1;
+  const maxAvatarId = 7;
+  const randomAvatarId = Math.floor(
+    Math.random() * (maxAvatarId - minAvatarId) + minAvatarId
   );
-  return `img/avatar-${randomPhotoId}.svg`;
+  return `img/avatar-${randomAvatarId}.svg`;
 }
 
 function createRandomCommentMessage() {
@@ -106,22 +112,17 @@ function createRandomCommentUserName() {
 function createRandomUserPhotosDescription() {
   const minUsersPhotoDescriptionId = 0;
   const maxUsersPhotoDescriptionId = userPhotosDescriptions.length;
-  const randomUserPhotosDescription = Math.floor(
+  const randomUserPhotosDescriptionId = Math.floor(
     Math.random() * (maxUsersPhotoDescriptionId - minUsersPhotoDescriptionId) +
       minUsersPhotoDescriptionId
   );
-  return userPhotosDescriptions[randomUserPhotosDescription];
+  return userPhotosDescriptions[randomUserPhotosDescriptionId];
 }
 
-function createRandomCommentId(i) {
-  const randomIdArray = [];
-  while (randomIdArray.length < 600) {
-    const randomId = Math.floor(Math.random() * (999 - 1)) + 1;
-    if (!randomIdArray.includes(randomId)) {
-      randomIdArray.push(randomId);
-    }
-  }
-  return randomIdArray[i];
+function createRandomCommentId() {
+  const minId = 1;
+  const maxId = 999;
+  return Math.floor(Math.random() * (maxId - minId) + minId);
 }
 
 console.log(usersPhotos);
