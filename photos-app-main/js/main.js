@@ -39,11 +39,11 @@ const userPhotosDescriptions = [
 
 const usersPhotos = new Array(25)
   .fill(null)
-  .map((el, i) => getUsersPhotosObject(i)); //массив объектов с фото пользователей
+  .map((_, i) => getUserPhotoObject(i)); //массив объектов с фото пользователей
 
-function getUsersPhotosObject(i) {
+function getUserPhotoObject(i) {
   return {
-    id: `${i + 1}`,
+    id: i + 1,
     url: `photos/${i + 1}`,
     description: createRandomUserPhotosDescription(),
     likes: createRandomLikesCount(),
@@ -124,3 +124,12 @@ function createRandomCommentId() {
 } //случайный номер айди пользователя
 
 console.log(usersPhotos);
+
+//вынести переменную с использованными айди в начало кода
+//поменять все слова "create" на "get"
+/* сделать константные объекты типа:
+const UsersPhotoDescriptionId={
+  min: 1,
+  max: userPhotosDescriptions.length
+} */
+//сделать функцию для случайного значения
