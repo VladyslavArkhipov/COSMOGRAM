@@ -122,3 +122,5 @@ function createRandomCommentId() {
   const maxId = 999;
   return Math.floor(Math.random() * (maxId - minId) + minId);
 } //случайный номер айди пользователя
+
+console.log(usersPhotos);
