@@ -1,7 +1,7 @@
 //************ ОТОБРАЖЕНИЕ ФОТО НА СТРАНИЦЕ ************/
-import { userPhotos } from "./main.js";
-const picturesBlock = document.querySelector(".pictures");
-const pictureTemplate = document.querySelector("#picture");
+import { userPhotos } from "./main.js"; //импортирую массив объектов с фото
+const picturesBlock = document.querySelector(".pictures"); //нахожу блок в который вставлять фото
+const pictureTemplate = document.querySelector("#picture"); //нахожу шаблон с кодом для вставки фото
 
 for (let el of userPhotos) {
   const picture = pictureTemplate.content.cloneNode(true);
@@ -12,4 +12,4 @@ for (let el of userPhotos) {
   comments.textContent = `${el.comments.length}`;
   likes.textContent = `${el.likes}`;
   picturesBlock.append(picture);
-}
+} //перебираю элементы массива для того, чтобы после клонирования содержимого шаблона, можно было указать необходимые данные внутри контента
