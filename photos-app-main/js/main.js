@@ -37,99 +37,102 @@ const userPhotosDescriptions = [
   `Очаровуючий знімок, де кольори стають головними героями і створюють неповторну симфонію естетики.`,
 ]; //массив текстовых описаний к фото
 
-const usersPhotos = new Array(25)
+const maxCommentsCount = 20; //максимальное количество комментариев
+
+const likes = {
+  minLikesCount: 15,
+  maxLikesCount: 200,
+}; //ограничение для количества лайков
+
+const avatarId = {
+  minAvatarId: 1,
+  maxAvatarId: 7,
+}; //ограничение для выбора айди аватаров
+
+const commentMessageId = {
+  minCommentMessageId: 0,
+  maxCommentMessageId: commentsMessage.length,
+}; //ограничение для выбора айди комментариев
+
+const commentUsersNameId = {
+  minCommentUserNameId: 0,
+  maxCommentUserNameId: commentsUserName.length,
+}; //ограничение для выбора айди имени комментатора
+
+const usersPhotoDescriptionId = {
+  minUsersPhotoDescriptionId: 0,
+  maxUsersPhotoDescriptionId: userPhotosDescriptions.length,
+}; //ограничение для выбора айди описания фото
+
+const userPhotosCount = 25; //длина массива с фото
+
+const userPhotos = new Array(userPhotosCount)
   .fill(null)
   .map((_, i) => getUserPhotoObject(i)); //массив объектов с фото пользователей
 
 function getUserPhotoObject(i) {
   return {
     id: i + 1,
-    url: `photos/${i + 1}`,
-    description: createRandomUserPhotosDescription(),
-    likes: createRandomLikesCount(),
+    url: `photos/${i + 1}.jpg`,
+    description: getRandomUserPhotosDescription(),
+    likes: getRandomLikesCount(),
     comments: getUsersComments(),
   };
 } //объект для пользовательских фото
 
 function getUsersComments() {
   const usersComments = [];
-  const maxCommentsCount = 20;
-  const usedIds = new Set();
-  while (usersComments.length < maxCommentsCount) {
-    const id = createRandomCommentId();
-    if (!usedIds.has(id)) {
-      usedIds.add(id);
-      usersComments.push({
-        id,
-        avatar: createRandomAvatar(),
-        message: createRandomCommentMessage(),
-        name: createRandomCommentUserName(),
-      });
-    }
+  for (let i = 0; i < maxCommentsCount; i++) {
+    usersComments.push({
+      id: i,
+      avatar: getRandomAvatar(),
+      message: getRandomCommentMessage(),
+      name: getRandomCommentUserName(),
+    });
   }
   return usersComments; //массив комментариев к фото
 }
 
-function createRandomLikesCount() {
-  const minLikesCount = 15;
-  const maxLikesCount = 200;
-  return Math.floor(
-    Math.random() * (maxLikesCount - minLikesCount) + minLikesCount
-  );
+function getRandomLikesCount() {
+  return getRandomNumber(likes.minLikesCount, likes.maxLikesCount);
 } //случайное количество лайков
 
-function createRandomAvatar() {
-  const minAvatarId = 1;
-  const maxAvatarId = 7;
-  const randomAvatarId = Math.floor(
-    Math.random() * (maxAvatarId - minAvatarId) + minAvatarId
+function getRandomAvatar() {
+  const randomAvatarId = getRandomNumber(
+    avatarId.minAvatarId,
+    avatarId.maxAvatarId
   );
   return `img/avatar-${randomAvatarId}.svg`;
 } //случайный путь к файлу с аватаром пользователя
 
-function createRandomCommentMessage() {
-  const minCommentMessageId = 0;
-  const maxCommentMessageId = commentsMessage.length;
-  const randomCommentMessageId = Math.floor(
-    Math.random() * (maxCommentMessageId - minCommentMessageId) +
-      minCommentMessageId
+function getRandomCommentMessage() {
+  const randomCommentMessageId = getRandomNumber(
+    commentMessageId.minCommentMessageId,
+    commentMessageId.maxCommentMessageId
   );
   return commentsMessage[randomCommentMessageId];
 } //случайный комментарий из массива комментариев
 
-function createRandomCommentUserName() {
-  const minCommentUserNameId = 0;
-  const maxCommentUserNameId = commentsUserName.length;
-  const randomCommentUserNameId = Math.floor(
-    Math.random() * (maxCommentUserNameId - minCommentUserNameId) +
-      minCommentUserNameId
+function getRandomCommentUserName() {
+  const randomCommentUserNameId = getRandomNumber(
+    commentUsersNameId.minCommentUserNameId,
+    commentUsersNameId.maxCommentUserNameId
   );
   return commentsUserName[randomCommentUserNameId];
 } //случайное имя пользователя из массива имен
 
-function createRandomUserPhotosDescription() {
-  const minUsersPhotoDescriptionId = 0;
-  const maxUsersPhotoDescriptionId = userPhotosDescriptions.length;
-  const randomUserPhotosDescriptionId = Math.floor(
-    Math.random() * (maxUsersPhotoDescriptionId - minUsersPhotoDescriptionId) +
-      minUsersPhotoDescriptionId
+function getRandomUserPhotosDescription() {
+  const randomUserPhotosDescriptionId = getRandomNumber(
+    usersPhotoDescriptionId.minUsersPhotoDescriptionId,
+    usersPhotoDescriptionId.maxUsersPhotoDescriptionId
   );
   return userPhotosDescriptions[randomUserPhotosDescriptionId];
 } //случайное описание к фото из массива описаний
 
-function createRandomCommentId() {
-  const minId = 1;
-  const maxId = 999;
-  return Math.floor(Math.random() * (maxId - minId) + minId);
-} //случайный номер айди пользователя
+function getRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
+} //
 
-console.log(usersPhotos);
+console.log(userPhotos);
 
-//вынести переменную с использованными айди в начало кода
-//поменять все слова "create" на "get"
-/* сделать константные объекты типа:
-const UsersPhotoDescriptionId={
-  min: 1,
-  max: userPhotosDescriptions.length
-} */
-//сделать функцию для случайного значения
+export { userPhotos };
