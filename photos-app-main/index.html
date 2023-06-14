@@ -149,19 +149,12 @@
           <div class="social__header">
             <img class="social__picture" src="img/avatar-1.svg" alt="Аватар автора фотографии" width="35" height="35">
             <p class="social__caption">Тестимо нову камеру! =)</p>
-            <p class="social__likes">Подобається <span class="likes-count">356</span></p>
+            <p class="social__likes">Подобається: <p class="likes-count">356</p></p>
           </div>
 
           <!-- Коментарі до зображення-->
           <div class="social__comment-count"><span class="comments-shown">5</span> з <span class="comments-count">125</span> комментарів</div>
           <ul class="social__comments">
-            <li class="social__comment">
-              <img class="social__picture" src="img/avatar-4.svg" alt="Аватар на коментарі фотографії" width="35" height="35">
-              <div>
-                <p class="social__author"></p>
-                <p class="social__text">Мега фото! Просто очманіти. Як вам так удалося?</p>
-              </div>
-            </li>
           </ul>
 
           <!-- Кнопка для завантаження нової порції коментарів -->
@@ -188,8 +181,8 @@
 
   <!-- Шаблон зображення випадкового користувача-->
   <template id="picture">
-    <a href="#" class="picture">
-      <img class="picture__img" src="" width="182" height="182" alt="Випадкова фотографія">
+    <a href="#" class="picture" >
+      <img class="picture__img" src="" width="182" height="182" alt="Випадкова фотографія" data-id="">
       <p class="picture__info">
         <span class="picture__comments"></span>
         <span class="picture__likes"></span>
@@ -236,5 +229,6 @@
   <!-- Підключення js-->
   <script type="module" src="./js/main.js"></script>
 <script type="module" src="./js/mini_pictures.js"></script>
+<SCRipt type="module" src="./js/big_pictures.js"></SCRipt>
 </body>
 </html>
