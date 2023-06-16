@@ -9,12 +9,7 @@ picturesBlock.addEventListener("click", openWindow); //При клике на м
 
 bigPictureSection.addEventListener("click", (e) => {
   closeWindow(e);
-  show(e);
 }); //При клике внутри секции с большим фото пока что отработан сценарий закрытия окна
-
-function show(e) {
-  console.log(e.target);
-}
 
 document.addEventListener("keydown", closeWindow); //При нажатии кнопке escape закрывается большое окно с фото
 
