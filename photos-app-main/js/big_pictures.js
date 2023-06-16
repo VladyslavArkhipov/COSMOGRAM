@@ -24,9 +24,6 @@ function closeWindow(e) {
 
 function openWindow(e) {
   const id = +e.target.dataset.id; //Указываю что айди фото это айди у картинки на которую мы кликаем
-  if (isNaN(id)) {
-    return;
-  } //Если нажать не на картинку то ничего не происходит
   const photoInfo = userPhotos.find((e) => e.id === id); //Нахожу объект который соответствует айди фото
   const image = bigPictureSection.querySelector("img"); //Нахожу тег img внутри секции с большим фото
   const description = bigPictureSection.querySelector(".social__caption"); //Нахожу тег с классом social__caption внутри секции с большим фото
@@ -36,6 +33,7 @@ function openWindow(e) {
     ".social__comment-count"
   ); //Нахожу тег с классом social__comment-count внутри секции с большим фото
 
+  if (isNaN(id)) return; //Если нажать не на картинку то ничего не происходит
   bigPictureSection.classList.remove("hidden"); //При открытии убираю класс для скрытия тега и добавляю класс к body, а также скрываю счетчик комментариев как сказано в задании
   body.classList.add("modal-open");
   commentsCountBlock.classList.add("hidden");
