@@ -36,7 +36,7 @@ function openWindow(e) {
   if (isNaN(id)) return; //Если нажать не на картинку то ничего не происходит
   bigPictureSection.classList.remove("hidden"); //При открытии убираю класс для скрытия тега и добавляю класс к body, а также скрываю счетчик комментариев как сказано в задании
   body.classList.add("modal-open");
-  commentsCountBlock.classList.add("hidden");
+  commentsCountBlock.classList.add("hidden"); //скрываю количество комментариев так как сказано в задании
 
   image.src = photoInfo.url;
   image.alt = photoInfo.description;
