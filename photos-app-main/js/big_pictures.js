@@ -9,16 +9,25 @@ picturesBlock.addEventListener("click", openWindow); //При клике на м
 
 bigPictureSection.addEventListener("click", (e) => {
   closeWindow(e);
+  show(e);
 }); //При клике внутри секции с большим фото пока что отработан сценарий закрытия окна
+
+function show(e) {
+  console.log(e.target);
+}
 
 document.addEventListener("keydown", closeWindow); //При нажатии кнопке escape закрывается большое окно с фото
 
 function closeWindow(e) {
-  if (e.key === `Escape` || e.target.type === "reset") {
+  if (
+    e.key === `Escape` ||
+    e.target.type === "reset" ||
+    e.target.className === "big-picture overlay"
+  ) {
     bigPictureSection.classList.add("hidden");
     body.classList.remove("modal-open");
   }
-} //Функция для закрытия окна. При нажатии кнопки Escape или при клике на кнопку с типом Reset будет добавляться класс к секции с большим фото и убираться класс у тега body
+} //Функция для закрытия окна. При нажатии кнопки Escape или при клике на кнопку с типом Reset или на пустом месте - будет добавляться класс к секции с большим фото и убираться класс у тега body
 
 function openWindow(e) {
   const id = +e.target.dataset.id; //Указываю что айди фото это айди у картинки на которую мы кликаем
