@@ -56,6 +56,7 @@ function getComments(photoInfo) {
   const commentsList = bigPictureSection.querySelector(".social__comments"); //Нахожу тег для вписывания элементов списка
   const documentFragment = document.createDocumentFragment(); //Создаю элемент для фрагмента кода
   const comments = photoInfo.comments; //Передаю из параметров функции массив комментариев внутри объекта фото
+  commentsList.innerHTML = ``;
   comments.forEach((el) => {
     const comment = document.createElement("li");
     comment.className = "social__comment";
@@ -69,5 +70,6 @@ function getComments(photoInfo) {
     `;
     documentFragment.appendChild(comment);
   }); //Прохожу по каждому элементу массива и создаю элемент списка с необходимыми данными
+  console.log(commentsList);
   commentsList.appendChild(documentFragment); //Добавляю сгенерированный фрагмент кода в так для списка
 }
