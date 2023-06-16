@@ -7,9 +7,7 @@ const body = document.querySelector("body"); //Нахожу тег body
 
 picturesBlock.addEventListener("click", openWindow); //При клике на миниатюру фото открываю окно с фото в большом размере
 
-bigPictureSection.addEventListener("click", (e) => {
-  closeWindow(e);
-}); //При клике внутри секции с большим фото пока что отработан сценарий закрытия окна
+bigPictureSection.addEventListener("click", closeWindow); //При клике внутри секции с большим фото пока что отработан сценарий закрытия окна
 
 document.addEventListener("keydown", closeWindow); //При нажатии кнопке escape закрывается большое окно с фото
 
@@ -26,6 +24,9 @@ function closeWindow(e) {
 
 function openWindow(e) {
   const id = +e.target.dataset.id; //Указываю что айди фото это айди у картинки на которую мы кликаем
+  if (isNaN(id)) {
+    return;
+  } //Если нажать не на картинку то ничего не происходит
   const photoInfo = userPhotos.find((e) => e.id === id); //Нахожу объект который соответствует айди фото
   const image = bigPictureSection.querySelector("img"); //Нахожу тег img внутри секции с большим фото
   const description = bigPictureSection.querySelector(".social__caption"); //Нахожу тег с классом social__caption внутри секции с большим фото
