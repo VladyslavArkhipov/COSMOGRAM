@@ -70,6 +70,5 @@ function getComments(photoInfo) {
     `;
     documentFragment.appendChild(comment);
   }); //Прохожу по каждому элементу массива и создаю элемент списка с необходимыми данными
-  console.log(commentsList);
   commentsList.appendChild(documentFragment); //Добавляю сгенерированный фрагмент кода в так для списка
 }
