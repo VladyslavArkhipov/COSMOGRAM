@@ -13,10 +13,11 @@ document.addEventListener("keydown", closeWindow); //При нажатии кн�
 
 function closeWindow(e) {
   if (
-    e.key === `Escape` ||
+    (e.key === `Escape` && !bigPictureSection.classList.contains("hidden")) ||
     e.target.type === "reset" ||
     e.target.className === "big-picture overlay"
   ) {
+    console.log("esc");
     bigPictureSection.classList.add("hidden");
     body.classList.remove("modal-open");
   }
