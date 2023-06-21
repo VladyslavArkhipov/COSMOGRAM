@@ -1,7 +1,7 @@
-import { showMiniPictures } from "./mini_pictures.js";
-import { openBigPictureWindow } from "./big_pictures.js";
-import { openUploadPictureWindow } from "./upload_picture.js";
-import { closeWindow } from "./close_window.js";
+import { showMiniPictures } from "./showMiniPictures.js";
+import { openBigPictureWindow } from "./showBigPicture.js";
+import { openUploadPictureWindow } from "./uploadPicture.js";
+import { closeWindow } from "./closeWindow.js";
 
 const picturesBlock = document.querySelector(".pictures"); //Нахожу блок со всеми миниатюрами фото
 const bigPictureSection = document.querySelector(".big-picture"); //Нахожу секцию для показа большого фото
