@@ -1,3 +1,9 @@
+import { showMiniPictures } from "./mini_pictures.js";
+import { openWindow, closeWindow } from "./big_pictures.js";
+
+const picturesBlock = document.querySelector(".pictures"); //Нахожу блок со всеми миниатюрами фото
+const bigPictureSection = document.querySelector(".big-picture"); //Нахожу секцию для показа большого фото
+
 const commentsMessage = [
   `Все відмінно!`,
   `Загалом все непогано. Але не всі.`,
@@ -131,8 +137,14 @@ function getRandomUserPhotosDescription() {
 
 function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
-} //
+}
 
-console.log(userPhotos);
+showMiniPictures(userPhotos);
+
+picturesBlock.addEventListener("click", openWindow); //При клике на миниатюру фото открываю окно с фото в большом размере
+
+bigPictureSection.addEventListener("click", closeWindow); //При клике внутри секции с большим фото пока что отработан сценарий закрытия окна
+
+document.addEventListener("keydown", closeWindow); //При нажатии кнопке escape закрывается большое окно с фото
 
 export { userPhotos };
