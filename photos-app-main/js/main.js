@@ -1,8 +1,14 @@
-import { showMiniPictures } from "./mini_pictures.js";
-import { openWindow, closeWindow } from "./big_pictures.js";
+import { showMiniPictures } from "./showMiniPictures.js";
+import { openBigPictureWindow } from "./showBigPicture.js";
+import { openUploadPictureWindow } from "./uploadPicture.js";
+import { closeWindow } from "./closeWindow.js";
+import { formValidation } from "./formValidation.js";
 
 const picturesBlock = document.querySelector(".pictures"); //Нахожу блок со всеми миниатюрами фото
 const bigPictureSection = document.querySelector(".big-picture"); //Нахожу секцию для показа большого фото
+const uploadBtn = document.querySelector("#upload-file"); //Нахожу кнопку для закгрузки изображения
+const uploadPictureBlock = document.querySelector(".img-upload__overlay"); //Нахожу блок который отрисовывает окно с формой для загрузки фото
+const formSubmitBtn = document.querySelector(".img-upload__submit"); //Нахожу кнопку для отправки формы с новым фото
 
 const commentsMessage = [
   `Все відмінно!`,
@@ -139,12 +145,18 @@ function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-showMiniPictures(userPhotos);
+showMiniPictures(userPhotos); //функция для отрисовки фото из массива с фото
 
-picturesBlock.addEventListener("click", openWindow); //При клике на миниатюру фото открываю окно с фото в большом размере
+picturesBlock.addEventListener("click", openBigPictureWindow); //При клике на миниатюру фото открываю окно с фото в большом размере
 
 bigPictureSection.addEventListener("click", closeWindow); //При клике внутри секции с большим фото пока что отработан сценарий закрытия окна
 
 document.addEventListener("keydown", closeWindow); //При нажатии кнопке escape закрывается большое окно с фото
+
+uploadBtn.addEventListener("change", openUploadPictureWindow); //при добавлении фото открывается окно с формой для загрузки фото
+
+uploadPictureBlock.addEventListener("click", closeWindow); //при клике внутри блока загрузки в данном случае будет закрытие окна
+
+formSubmitBtn.addEventListener("click", formValidation); //При нажатии на кнопку для отправки формы происходит валидация формы
 
 export { userPhotos };

@@ -4,18 +4,7 @@ import { userPhotos } from "./main.js"; //импортирую массив об
 const bigPictureSection = document.querySelector(".big-picture"); //Нахожу секцию для показа большого фото
 const body = document.querySelector("body"); //Нахожу тег body
 
-function closeWindow(e) {
-  if (
-    (e.key === `Escape` && !bigPictureSection.classList.contains("hidden")) ||
-    e.target.type === "reset" ||
-    e.target.className === "big-picture overlay"
-  ) {
-    bigPictureSection.classList.add("hidden");
-    body.classList.remove("modal-open");
-  }
-} //Функция для закрытия окна. При нажатии кнопки Escape или при клике на кнопку с типом Reset или на пустом месте - будет добавляться класс к секции с большим фото и убираться класс у тега body
-
-function openWindow(e) {
+function openBigPictureWindow(e) {
   if (e.target.classList.contains("picture__img")) {
     const id = +e.target.dataset.id; //Указываю что айди фото это айди у картинки на которую мы кликаем
     const photoInfo = userPhotos.find((e) => e.id === id); //Нахожу объект который соответствует айди фото
@@ -61,4 +50,4 @@ function getComments(photoInfo) {
   commentsList.appendChild(documentFragment); //Добавляю сгенерированный фрагмент кода в тег для списка
 }
 
-export { openWindow, closeWindow };
+export { openBigPictureWindow };
