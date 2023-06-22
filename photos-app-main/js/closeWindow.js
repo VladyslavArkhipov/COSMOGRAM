@@ -8,8 +8,8 @@ function closeWindow(e) {
   const hashtagInput = form.querySelector(".text__hashtags"); //Нахожу инпут для хештегов
 
   if (
-    document.activeElement === commentInput ||
-    document.activeElement === hashtagInput
+    (e.key === `Escape` && document.activeElement === commentInput) ||
+    (e.key === `Escape` && document.activeElement === hashtagInput)
   ) {
     e.preventDefault();
   } else if (
