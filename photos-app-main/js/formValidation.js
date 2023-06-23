@@ -16,7 +16,7 @@ function formValidation() {
       hashtagsInput.reportValidity();
     } else {
       spacedArray.forEach((e, index) => {
-        const isValid = /^[A-Za-z0-9#]+$/.test(e); //Определяю есть ли невалидные элементы в массиве
+        const isValid = /^[A-Za-z0-9#а-яА-ЯёЁ]+$/u.test(e); //Определяю есть ли невалидные элементы в массиве
         if (spacedArray[index].length > 20) {
           hashtagsInput.setCustomValidity(
             "Длина одного хештага должна быть меньше 20 символов"
