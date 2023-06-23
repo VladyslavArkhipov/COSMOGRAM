@@ -1,5 +1,5 @@
 import { showMiniPictures } from "./showMiniPictures.js";
-import { openBigPictureWindow } from "./showBigPicture.js";
+import { openBigPictureWindow } from "./openBigPictureWindow.js";
 import { openUploadPictureWindow } from "./openUploadPictureWindow.js";
 import { closeWindow } from "./closeWindow.js";
 import { formValidation } from "./formValidation.js";
