@@ -11,7 +11,7 @@ function showMiniPictures(arr) {
     const comments = picture.querySelector(".picture__comments");
     const likes = picture.querySelector(".picture__likes");
     image.src = `${photo.url}`;
-    comments.textContent = `${photo.comments.length}`;
+    comments.textContent = `10`;
     likes.textContent = `${photo.likes}`;
     image.dataset.id = photo.id;
     documentFragment.appendChild(picture); //все новые элементы добавляю в фрагмент документа который затем буду вставлять в блок для фото
@@ -19,4 +19,5 @@ function showMiniPictures(arr) {
 
   picturesBlock.appendChild(documentFragment); //добавляю фрагмент документа в блок для фото для вывода всех фото
 }
+
 export { showMiniPictures };

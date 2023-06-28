@@ -3,6 +3,12 @@ import { userPhotos } from "./main.js"; //импортирую массив об
 
 const bigPictureSection = document.querySelector(".big-picture"); //Нахожу секцию для показа большого фото
 const body = document.querySelector("body"); //Нахожу тег body
+const userComments = await fetch("http://127.0.0.1:4001/comments")
+  .then((response) => response.json())
+  .then((json) => {
+    return json;
+  })
+  .catch(() => alert("ERROR"));
 
 function openBigPictureWindow(e) {
   if (e.target.classList.contains("picture__img")) {
@@ -24,7 +30,7 @@ function openBigPictureWindow(e) {
     image.alt = photoInfo.description;
     description.textContent = photoInfo.description;
     likesCount.textContent = photoInfo.likes;
-    commentsCount.textContent = photoInfo.comments.length;
+    commentsCount.textContent = `10`;
     getComments(photoInfo); //Указываю необходимые данные из объекта для правильного отображения и с помощью функции отображаю комментарии
   }
 }
@@ -34,19 +40,20 @@ function getComments(photoInfo) {
   const documentFragment = document.createDocumentFragment(); //Создаю элемент для фрагмента кода
   const comments = photoInfo.comments; //Передаю из параметров функции массив комментариев внутри объекта фото
   commentsList.innerHTML = ``; //Очищаю список от предыдущих комментариев если те были
-  comments.forEach((el) => {
+  for (let i = 0; i < 10; i++) {
     const comment = document.createElement("li");
     comment.className = "social__comment";
     comment.innerHTML = `
     <img
      class="social__picture"
-     src=${el.avatar}
-     alt=${el.name}
+     src=${userComments[i].avatar}
+     alt=${userComments[i].name}
      width="35" height="35">
-   <p class="social__text">${el.message}</p>
+   <p class="social__text">${userComments[i].message}</p>
     `;
     documentFragment.appendChild(comment);
-  }); //Прохожу по каждому элементу массива и создаю элемент списка с необходимыми данными
+  }
+
   commentsList.appendChild(documentFragment); //Добавляю сгенерированный фрагмент кода в тег для списка
 }
 
