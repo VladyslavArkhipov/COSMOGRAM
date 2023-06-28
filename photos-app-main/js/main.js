@@ -1,6 +1,6 @@
 import { showMiniPictures } from "./showMiniPictures.js";
-import { openBigPictureWindow } from "./showBigPicture.js";
-import { openUploadPictureWindow } from "./uploadPicture.js";
+import { openBigPictureWindow } from "./openBigPictureWindow.js";
+import { openUploadPictureWindow } from "./openUploadPictureWindow.js";
 import { closeWindow } from "./closeWindow.js";
 import { formValidation } from "./formValidation.js";
 
@@ -77,12 +77,10 @@ const usersPhotoDescriptionId = {
 }; //ограничение для выбора айди описания фото
 
 const userPhotosCount = 25; //длина массива с фото
-
 const userPhotos = new Array(userPhotosCount)
   .fill(null)
   .map((_, i) => getUserPhotoObject(i)); //массив объектов с фото пользователей
-
-function getUserPhotoObject(i) {
+export function getUserPhotoObject(i) {
   return {
     id: i + 1,
     url: `photos/${i + 1}.jpg`,
@@ -144,6 +142,15 @@ function getRandomUserPhotosDescription() {
 function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
+
+export { userPhotosCount };
+
+fetch(`http://127.0.0.1:4001/photos`)
+  .then((response) => response.json())
+  .then((json) => {
+    console.log(json);
+  })
+  .catch(() => alert("Такого города не существует. Попробуйте другой"));
 
 showMiniPictures(userPhotos); //функция для отрисовки фото из массива с фото
 

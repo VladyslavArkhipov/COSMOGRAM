@@ -10,13 +10,13 @@ function formValidation() {
   } else {
     const hasDuplicates = spacedArray.some(
       (value, index) => spacedArray.indexOf(value) !== index
-    ); //Определяю есть ли одинаковые хештеги
+    ); //Определяю есть ли одинаковые хештеги --ПЕРЕИМЕНОВАТЬ В БОЛЕЕ ПОНЯТНУЮ ПЕРЕМЕННУЮ
     if (hasDuplicates) {
       hashtagsInput.setCustomValidity("Хештеги должны быть разными");
       hashtagsInput.reportValidity();
     } else {
       spacedArray.forEach((e, index) => {
-        const isValid = /^[A-Za-z0-9#]+$/.test(e); //Определяю есть ли невалидные элементы в массиве
+        const isValid = /^[A-Za-z0-9#а-яА-ЯёЁ]+$/u.test(e); //Определяю есть ли невалидные элементы в массиве --ОСТАВИТЬ ТОЛЬКО 1 РЕШЕТКУ
         if (spacedArray[index].length > 20) {
           hashtagsInput.setCustomValidity(
             "Длина одного хештага должна быть меньше 20 символов"
@@ -40,6 +40,11 @@ function formValidation() {
       });
     }
   }
+  //ПОСТАВИТЬ РЕПОРТ ВАЛИДИТИ
 }
 
 export { formValidation };
+
+//сообщения для валидации в отдельный объект
+//указать постоянные константы типа
+//отправлять пустую можно
