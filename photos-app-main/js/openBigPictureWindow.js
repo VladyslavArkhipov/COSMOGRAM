@@ -83,7 +83,6 @@ function loadComments(arr, commentsCount) {
   const newArr = arr.splice(0, 5);
   console.log(commentsArray);
 
-  console.log(restComments);
   console.log(newArr);
 
   if (commentsCount - commentsList.children.length <= 5) {
