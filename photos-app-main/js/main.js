@@ -3,6 +3,7 @@ import { openBigPictureWindow } from "./openBigPictureWindow.js";
 import { openUploadPictureWindow } from "./openUploadPictureWindow.js";
 import { closeWindow } from "./closeWindow.js";
 import { formValidation } from "./formValidation.js";
+import { slider } from "./slider.js";
 
 const userPhotos = await fetch("http://127.0.0.1:4001/photos")
   .then((response) => response.json())
@@ -30,5 +31,7 @@ uploadBtn.addEventListener("change", openUploadPictureWindow); //при доба
 uploadPictureBlock.addEventListener("click", closeWindow); //при клике внутри блока загрузки в данном случае будет закрытие окна
 
 formSubmitBtn.addEventListener("click", formValidation); //При нажатии на кнопку для отправки формы происходит валидация формы
+
+slider();
 
 export { userPhotos };

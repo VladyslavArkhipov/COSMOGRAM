@@ -12,10 +12,7 @@ const commentsMaxCount = bigPictureSection.querySelector(".comments-count"); //�
 const commentsShown = document.querySelector(".comments-shown");
 const commentsCountBlock = document.querySelector(".social__comment-count");
 const commentsShownCount = 5;
-const commentsLoader = bigPictureSection.querySelector(
-  ".social__comments-loader"
-);
-
+const commentsLoader = document.querySelector(".social__comments-loader");
 const userComments = await fetch("http://127.0.0.1:4001/comments")
   .then((response) => response.json())
   .then((json) => {
@@ -24,7 +21,7 @@ const userComments = await fetch("http://127.0.0.1:4001/comments")
   .catch(() => alert("ERROR"));
 const commentsArray = userComments.slice();
 
-function openBigPictureWindow(e) {
+async function openBigPictureWindow(e) {
   if (e.target.classList.contains("picture__img")) {
     const id = +e.target.dataset.id; //Указываю что айди фото это айди у картинки на которую мы кликаем
     const commentsCount = +e.target.dataset.commentsCount;
@@ -39,8 +36,6 @@ function openBigPictureWindow(e) {
     likesCount.textContent = photoInfo.likes;
 
     getComments(commentsCount); //Указываю необходимые данные из объекта для правильного отображения и с помощью функции отображаю комментарии
-
-    return;
   }
 }
 
@@ -54,7 +49,6 @@ function getComments(commentsCount) {
       commentsShown.textContent = commentsCount;
       commentsMaxCount.textContent = commentsCount;
       createComments(comments);
-      return;
     } else {
       const preloadedComments = commentsArray.slice(0, 5);
       const restComments = commentsArray.slice(5, commentsCount);
@@ -69,20 +63,16 @@ function getComments(commentsCount) {
       commentsLoader.addEventListener("click", function () {
         loadComments(restComments, commentsCount);
       });
-      return;
     }
   } else {
     commentsList.innerHTML = ``; //Очищаю список от предыдущих комментариев если те были
     commentsCountBlock.classList.add("hidden");
     commentsLoader.classList.add("hidden");
-    return;
   }
 }
 
 function loadComments(arr, commentsCount) {
   const newArr = arr.splice(0, 5);
-  console.log(commentsArray);
-
   console.log(newArr);
 
   if (commentsCount - commentsList.children.length <= 5) {
@@ -90,14 +80,11 @@ function loadComments(arr, commentsCount) {
     createComments(newArr);
 
     commentsShown.textContent = commentsList.children.length;
-
-    return;
   } else {
     commentsLoader.classList.remove("hidden");
     createComments(newArr);
 
     commentsShown.textContent = commentsList.children.length;
-    return;
   }
 }
 
@@ -118,7 +105,6 @@ function createComments(arr) {
     documentFragment.appendChild(comment);
   }
   commentsList.appendChild(documentFragment); //Добавляю сгенерированный фрагмент кода в тег для списка
-  return;
 }
 
 export { openBigPictureWindow };
