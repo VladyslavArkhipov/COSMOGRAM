@@ -4,8 +4,12 @@ const scaleBlock = document.querySelector(".scale"); //Нахожу блок с 
 const effectsList = document.querySelector(".effects__list"); //нахожу блок с выбором эффектов
 const scaleValue = document.querySelector(".scale__control--value"); //Нахожу блок со значением масштаба фото
 const image = document.querySelector(".img-upload__preview"); //нахожу картинку
-const maxScale = 100; //максимальное значение масштаба
-const minScale = 25; //минимальное значение масштаба
+const scaleRange = {
+  max: 100,
+  min: 25,
+  step: 25,
+};
+
 const slider = document.querySelector("#slider"); //нахожу элемент который будет отвечать за слайдер
 const chrome = {
   minValue: 0,
@@ -40,19 +44,21 @@ export function imageEffects() {
 
 function scale(e) {
   let value = +scaleValue.value.substring(0, scaleValue.value.length - 1); //переменная для получения значения масштаба - привожу к числу и удаляю последний элемент так как там процент
-  if (value >= minScale && value <= maxScale) {
-    if (e.target.id === "smaller" && value > minScale) {
-      value -= 25;
-      scaleValue.value = value + "%";
-      image.style.transform = `scale(0.${value})`; //если кликаем на минус и значение больше 25 то значение на 25 уменьшается, исправляется значение в блоке масштаба и картинка уменьшается
-    } else if (e.target.id === "bigger" && value < maxScale) {
-      value += 25;
-      scaleValue.value = value + "%";
-      if (value === maxScale) {
-        image.style.transform = `scale(1)`; //при значение 100 указываю значение 1 равное 100% масштаба
-      } else {
-        image.style.transform = `scale(0.${value})`; //если кликаем на плюс и значение меньше 100 то значение на 25 увеличивается, исправляется значение в блоке масштаба и картинка уменьшается
-      }
+  if (e.target.id === "smaller") {
+    value = value - scaleRange.step;
+    if (value < scaleRange.min || value > scaleRange.max) return;
+    scaleValue.value = value + "%";
+    console.log(scaleValue.value);
+    image.style.transform = `scale(0.${value})`; //если кликаем на минус и значение больше 25 то значение на 25 уменьшается, исправляется значение в блоке масштаба и картинка уменьшается
+  } else if (e.target.id === "bigger") {
+    value = value + scaleRange.step;
+    if (value < scaleRange.min || value > scaleRange.max) return;
+    scaleValue.value = value + "%";
+    console.log(scaleValue.value);
+    if (value === scaleRange.max) {
+      image.style.transform = `scale(1)`; //при значение 100 указываю значение 1 равное 100% масштаба
+    } else {
+      image.style.transform = `scale(0.${value})`; //если кликаем на плюс и значение меньше 100 то значение на 25 увеличивается, исправляется значение в блоке масштаба и картинка уменьшается
     }
   }
 }
@@ -61,30 +67,26 @@ function getFilter(e) {
   switch (true) {
     case e.target.id === "effect-none":
       image.className = "img-upload__preview";
+      refreshImage();
       createSlider(`remove`);
       break;
     case e.target.id === "effect-chrome":
-      image.className = "img-upload__preview";
       image.classList.add("effects__preview--chrome");
       createSlider("add", chrome.minValue, chrome.maxValue, chrome.step);
       break;
     case e.target.id === "effect-sepia":
-      image.className = "img-upload__preview";
       image.classList.add("effects__preview--sepia");
       createSlider("add", sepia.minValue, sepia.maxValue, sepia.step);
       break;
     case e.target.id === "effect-marvin":
-      image.className = "img-upload__preview";
       image.classList.add("effects__preview--marvin");
       createSlider("add", marvin.minValue, marvin.maxValue, marvin.step);
       break;
     case e.target.id === "effect-phobos":
-      image.className = "img-upload__preview";
       image.classList.add("effects__preview--phobos");
       createSlider("add", phobos.minValue, phobos.maxValue, phobos.step);
       break;
     case e.target.id === "effect-heat":
-      image.className = "img-upload__preview";
       image.classList.add("effects__preview--heat");
       createSlider("add", heat.minValue, heat.maxValue, heat.step);
       break;
@@ -99,18 +101,17 @@ function createSlider(action, minValue, maxValue, step) {
   } else if (action === "add") {
     if (!slider.noUiSlider) {
       noUiSlider.create(slider, {
-        start: 100,
+        start: maxValue, //что значит 100
         range: {
           min: minValue,
           max: maxValue,
         },
         step: step,
         connect: "lower",
-        tooltips: true,
       });
     } else {
       slider.noUiSlider.updateOptions({
-        start: 100,
+        start: maxValue,
         range: {
           min: minValue,
           max: maxValue,
@@ -141,6 +142,9 @@ function refreshImage(value) {
       break;
     case image.classList.contains("effects__preview--heat"):
       image.style.filter = `brightness(${value})`;
+      break;
+    default:
+      image.style.filter = ``;
       break;
   }
 } //когда меняется значение внутри слайдера то по второму классу у изображения определяем какой стиль нужно менять у него
