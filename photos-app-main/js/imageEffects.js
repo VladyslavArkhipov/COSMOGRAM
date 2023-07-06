@@ -3,13 +3,13 @@ import noUiSlider from "../node_modules/nouislider/dist/nouislider.mjs";
 const scaleBlock = document.querySelector(".scale"); //Нахожу блок с кнопками для масштаба
 const effectsList = document.querySelector(".effects__list"); //нахожу блок с выбором эффектов
 const scaleValue = document.querySelector(".scale__control--value"); //Нахожу блок со значением масштаба фото
-const image = document.querySelector(".img-upload__preview"); //нахожу картинку
+const imageBlock = document.querySelector(".img-upload__preview"); //нахожу картинку
+const image = imageBlock.querySelector("img");
 const scaleRange = {
   max: 100,
   min: 25,
   step: 25,
 };
-
 const slider = document.querySelector("#slider"); //нахожу элемент который будет отвечать за слайдер
 const chrome = {
   minValue: 0,
@@ -66,34 +66,34 @@ function scale(e) {
 function getFilter(e) {
   switch (true) {
     case e.target.id === "effect-none":
-      image.className = "img-upload__preview";
-      refreshImage();
+      image.className = "";
+      image.style.filter = ``;
       createSlider(`remove`);
       break;
     case e.target.id === "effect-chrome":
-      image.classList.add("effects__preview--chrome");
+      image.className = "effects__preview--chrome";
       createSlider("add", chrome.minValue, chrome.maxValue, chrome.step);
       break;
     case e.target.id === "effect-sepia":
-      image.classList.add("effects__preview--sepia");
+      image.className = "effects__preview--sepia";
       createSlider("add", sepia.minValue, sepia.maxValue, sepia.step);
       break;
     case e.target.id === "effect-marvin":
-      image.classList.add("effects__preview--marvin");
+      image.className = "effects__preview--marvin";
       createSlider("add", marvin.minValue, marvin.maxValue, marvin.step);
       break;
     case e.target.id === "effect-phobos":
-      image.classList.add("effects__preview--phobos");
+      image.className = "effects__preview--phobos";
       createSlider("add", phobos.minValue, phobos.maxValue, phobos.step);
       break;
     case e.target.id === "effect-heat":
-      image.classList.add("effects__preview--heat");
+      image.className = "effects__preview--heat";
       createSlider("add", heat.minValue, heat.maxValue, heat.step);
       break;
   }
 } //при нажатии на фильтр с одним айди то класс соответствующий названию фильтра добавляется  к классу картинки и появляется слайдер для редактирования изображения
 
-function createSlider(action, minValue, maxValue, step) {
+export function createSlider(action, minValue, maxValue, step) {
   if (action === "remove") {
     if (slider.noUiSlider) {
       slider.noUiSlider.destroy();
@@ -126,7 +126,7 @@ function createSlider(action, minValue, maxValue, step) {
   }
 } //если выбрано действие для удаления слайдера то мы его удаляем с помощью метода ДЕСТРОЙ, если выбрано действие добавления слайдера то мы его добавляем с переданными в функцию параметрами для слайдера
 
-function refreshImage(value) {
+export function refreshImage(value) {
   switch (true) {
     case image.classList.contains("effects__preview--chrome"):
       image.style.filter = `grayscale(${value})`;
@@ -143,8 +143,7 @@ function refreshImage(value) {
     case image.classList.contains("effects__preview--heat"):
       image.style.filter = `brightness(${value})`;
       break;
-    default:
-      image.style.filter = ``;
-      break;
   }
 } //когда меняется значение внутри слайдера то по второму классу у изображения определяем какой стиль нужно менять у него
+
+export { slider };
