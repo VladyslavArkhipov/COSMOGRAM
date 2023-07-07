@@ -20,6 +20,7 @@ function openUploadPictureWindow() {
   createSlider("remove");
   uploadedImage.className = "";
   uploadedImage.style.filter = ``;
+  uploadedImage.style.transform = `scale(1)`;
   imageEffects();
   formSubmitBtn.addEventListener("click", formValidation); //При нажатии на кнопку для отправки формы происходит валидация формы
 } //При добавлении фото меняются классы элементов бади и блока с формой для загрузки фото
