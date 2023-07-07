@@ -41,7 +41,7 @@ function formValidation(e) {
               hashtagsInput.setCustomValidity("");
               hashtagsInput.reportValidity();
 
-              uploadFile(uploadFile);
+              uploadFile(uploadedPhoto);
             }
           }
         });
