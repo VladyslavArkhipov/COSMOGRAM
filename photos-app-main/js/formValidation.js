@@ -55,24 +55,30 @@ function formValidation(e) {
 const uploadFile = (file) => {
   console.log("Uploading file..."); //сообщение о начале загрузки файла
   const API_ENDPOINT = "http://localhost:4001/upload"; //адрес сервера
-  const request = new XMLHttpRequest(); //объект, который позволяет делать запросы на сервер
   const formData = new FormData(); //объект для считывания данных с формы
 
-  request.open("POST", API_ENDPOINT, true); //метод для настройки запроса. Третий аргумант указывает на выполнение асинхронного запроса
-  request.onreadystatechange = () => {
-    if (request.readyState === 4) {
-      if (request.status === 200) {
+  formData.append("file", file); //добавляю файл в объект данных с формы
+
+  fetch(API_ENDPOINT, {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => {
+      if (response.ok) {
         showSuccess();
-        console.log(request.responseText);
+        return response.text();
       } else {
         showError();
-        console.log("Request failed with status:", request.status);
+        throw new Error("Request failed with status: " + response.status);
       }
-    }
-  }; //обработчик события срабатывает каждый раз когда меняется состояние запроса. Если 4, то запрос завершен и если статус 200 то вывожу окно "успех", а если другой код то "нудача"
-  formData.append("file", file); //добавляю файл в объект данных с формы
-  request.send(formData); //отправляю объект с данными формы на сервер
-}; //попробовать через ФЕТЧ!!!
+    })
+    .then((responseText) => {
+      console.log(responseText);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
 
 export { formValidation };
 
