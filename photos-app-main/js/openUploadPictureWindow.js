@@ -1,15 +1,14 @@
-//************ ОТОБРАЖЕНИЕ ЭКРАНА ДЛЯ ЗАГРУЗКИ НОВОГО ФОТО ************/
 import { formValidation } from "./formValidation.js";
 import { imageEffects } from "./imageEffects.js";
 import { createSlider } from "./imageEffects.js";
 
-const formSubmitBtn = document.querySelector(".img-upload__submit"); //Нахожу кнопку для отправки формы с новым фото
+const formSubmitBtn = document.querySelector(".img-upload__submit");
 const uploadPictureBlock = document.querySelector(".img-upload__overlay");
-const body = document.querySelector("body"); //Нахожу тег body
-const imageUpload = document.querySelector(".img-upload__input"); //нахожу инпут для добавления фото
+const body = document.querySelector("body");
+const imageUpload = document.querySelector(".img-upload__input");
 const imageContainer = document.querySelector(".img-upload__preview");
-const uploadedImage = imageContainer.querySelector("img"); //нахожу тег для добавления фото
-let uploadedPhoto; //объявляю переменную которая будет в себе хранить выбранное фото
+const uploadedImage = imageContainer.querySelector("img");
+let uploadedPhoto;
 
 imageUpload.addEventListener("change", uploadImage);
 
@@ -22,19 +21,19 @@ function openUploadPictureWindow() {
   uploadedImage.style.filter = ``;
   uploadedImage.style.transform = `scale(1)`;
   imageEffects();
-  formSubmitBtn.addEventListener("click", formValidation); //При нажатии на кнопку для отправки формы происходит валидация формы
-} //При добавлении фото меняются классы элементов бади и блока с формой для загрузки фото
+  formSubmitBtn.addEventListener("click", formValidation);
+}
 
 function uploadImage(e) {
-  const file = e.target.files[0]; //определяю выбранный файл
-  uploadedPhoto = file; //присваиваю его переменной которая ему соответствует
+  const file = e.target.files[0];
+  uploadedPhoto = file;
 
-  const reader = new FileReader(); //создаю объект который позволяет читать содержимое файлов
-  reader.readAsDataURL(file); //запускает процесс чтения файла в формате ЮРЛ
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
 
   reader.onload = function (e) {
     uploadedImage.src = e.target.result;
-  }; //когда процесс чтения файла завершен то вызывается функция которая указывает путь к картинке
+  };
 }
 export { uploadedPhoto };
 export { openUploadPictureWindow };

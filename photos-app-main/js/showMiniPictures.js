@@ -1,16 +1,15 @@
-//************ ОТОБРАЖЕНИЕ МИНИАТЮР ФОТО НА СТРАНИЦЕ ************/
 import { userPhotos } from "./main.js";
-const commentsArray = []; //создаю пустой массив в котором буду хранить количество комментариев
-const picturesBlock = document.querySelector(".pictures"); //нахожу блок в который вставлять фото
-const pictureTemplate = document.querySelector("#picture"); //нахожу шаблон с кодом для вставки фото
-const documentFragment = document.createDocumentFragment(); //создаю фрагмент документа, в который буду добавлять элементы фото
-const discussedPicturesBtn = document.querySelector("#filter-discussed"); //кнопка для популярных картинок
-const allPicturesBtn = document.querySelector("#filter-default"); //кнопка для всех картинок
-const randomPicturesBtn = document.querySelector("#filter-random"); //кнопка для случайных картинок
+const commentsArray = [];
+const picturesBlock = document.querySelector(".pictures");
+const pictureTemplate = document.querySelector("#picture");
+const documentFragment = document.createDocumentFragment();
+const discussedPicturesBtn = document.querySelector("#filter-discussed");
+const allPicturesBtn = document.querySelector("#filter-default");
+const randomPicturesBtn = document.querySelector("#filter-random");
 const commentsCountRules = {
   minCount: 0,
   maxCount: 40,
-}; //правила количества комментариев
+};
 const randomPictures = {
   min: 0,
   max: 24,
@@ -22,8 +21,8 @@ export function showMiniPictures(arr) {
     const commentsCount = getRandomNumber(
       commentsCountRules.minCount,
       commentsCountRules.maxCount
-    ); //генерирую случайное количество комментариев для фото
-    commentsArray.push(commentsCount); //Отправляю значение количества комментариев в массив
+    );
+    commentsArray.push(commentsCount);
     const picture = pictureTemplate.content.cloneNode(true);
 
     getPictureDetails(picture).image.src = `${photo.url}`;
@@ -31,10 +30,10 @@ export function showMiniPictures(arr) {
     getPictureDetails(picture).likes.textContent = `${photo.likes}`;
     getPictureDetails(picture).image.dataset.id = photo.id;
     getPictureDetails(picture).image.dataset.commentsCount = commentsCount;
-    documentFragment.appendChild(picture); //все новые элементы добавляю в фрагмент документа который затем буду вставлять в блок для фото
-  }); //перебираю элементы массива для того, чтобы после клонирования содержимого шаблона, можно было указать необходимые данные внутри контента
+    documentFragment.appendChild(picture);
+  });
 
-  picturesBlock.appendChild(documentFragment); //добавляю фрагмент документа в блок для фото для вывода всех фото
+  picturesBlock.appendChild(documentFragment);
 }
 
 export function showFilteredPictures(e) {
@@ -45,7 +44,7 @@ export function showFilteredPictures(e) {
   } else if (e.target.id === "filter-discussed") {
     showPopularPictures();
   }
-} //функция для обработчика событий внутри формы с фильтрами фото
+}
 
 function debounce(func, wait, immediate) {
   let timeout;
@@ -67,18 +66,18 @@ function debounce(func, wait, immediate) {
 
     if (callNow) func.apply(context, args);
   };
-} //функция для устранения эффекта "дрожания" при переключении фльтра
+}
 
-function activateBtn(activeBtn, firstPassiveBtn, secondPassiveBtn) {
+function setBtnActive(activeBtn, firstPassiveBtn, secondPassiveBtn) {
   const activeClass = `img-filters__button--active`;
   firstPassiveBtn.classList.remove(activeClass);
   secondPassiveBtn.classList.remove(activeClass);
   activeBtn.classList.add(activeClass);
-} //функция для визуальной активации кнопки фильтра
+}
 
 const showAllPictures = debounce(function () {
-  activateBtn(allPicturesBtn, discussedPicturesBtn, randomPicturesBtn); //делаю активной текущую выбранную кнопку
-  clearPictures(); //очищаю страницу от картинок
+  setBtnActive(allPicturesBtn, discussedPicturesBtn, randomPicturesBtn);
+  clearPictures();
   userPhotos.forEach((photo, index) => {
     const picture = pictureTemplate.content.cloneNode(true);
 
@@ -88,15 +87,15 @@ const showAllPictures = debounce(function () {
     getPictureDetails(picture).image.dataset.id = photo.id;
     getPictureDetails(picture).image.dataset.commentsCount =
       commentsArray[index].value;
-    documentFragment.appendChild(picture); //все новые элементы добавляю в фрагмент документа который затем буду вставлять в блок для фото
-  }); //перебираю элементы массива для того, чтобы после клонирования содержимого шаблона, можно было указать необходимые данные внутри контента
-  picturesBlock.appendChild(documentFragment); //добавляю фрагмент документа в блок для фото для вывода всех фото
-}, 500); //вызываю эту функцию с функцией для устранения "дрожания"
+    documentFragment.appendChild(picture);
+  });
+  picturesBlock.appendChild(documentFragment);
+}, 500);
 
 const showRandomPictures = debounce(function () {
-  activateBtn(randomPicturesBtn, discussedPicturesBtn, allPicturesBtn);
+  setBtnActive(randomPicturesBtn, discussedPicturesBtn, allPicturesBtn);
   clearPictures();
-  getTenRandomId().forEach((el) => {
+  getRandomPhotos().forEach((el) => {
     const picture = pictureTemplate.content.cloneNode(true);
 
     getPictureDetails(picture).image.src = `${userPhotos[el].url}`;
@@ -104,13 +103,13 @@ const showRandomPictures = debounce(function () {
     getPictureDetails(picture).likes.textContent = `${userPhotos[el].likes}`;
     getPictureDetails(picture).image.dataset.id = userPhotos[el].id;
     getPictureDetails(picture).image.dataset.commentsCount = commentsArray[el];
-    documentFragment.appendChild(picture); //все новые элементы добавляю в фрагмент документа который затем буду вставлять в блок для фото
-  }); //перебираю элементы массива для того, чтобы после клонирования содержимого шаблона, можно было указать необходимые данные внутри контента
-  picturesBlock.appendChild(documentFragment); //добавляю фрагмент документа в блок для фото для вывода всех фото
-}, 500); //принцип как и у предыдущей кнопки, но тут я отрисовываю картинки исходя из данных массива случайных айди картинок
+    documentFragment.appendChild(picture);
+  });
+  picturesBlock.appendChild(documentFragment);
+}, 500);
 
 const showPopularPictures = debounce(function () {
-  activateBtn(discussedPicturesBtn, allPicturesBtn, randomPicturesBtn);
+  setBtnActive(discussedPicturesBtn, allPicturesBtn, randomPicturesBtn);
   clearPictures();
   getSortedArray(commentsArray).forEach((el) => {
     const picture = pictureTemplate.content.cloneNode(true);
@@ -120,10 +119,10 @@ const showPopularPictures = debounce(function () {
     getPictureDetails(picture).likes.textContent = `${userPhotos[el.id].likes}`;
     getPictureDetails(picture).image.dataset.id = userPhotos[el.id].id;
     getPictureDetails(picture).image.dataset.commentsCount = el.value;
-    documentFragment.appendChild(picture); //все новые элементы добавляю в фрагмент документа который затем буду вставлять в блок для фото
+    documentFragment.appendChild(picture);
   });
-  picturesBlock.appendChild(documentFragment); //добавляю фрагмент документа в блок для фото для вывода всех фото
-}, 500); //принцип как и у предыдущей кнопки, но тут я отрисовываю картинки исходя из данных массива отсортированных значений количеств комментариев
+  picturesBlock.appendChild(documentFragment);
+}, 500);
 
 function getPictureDetails(picture) {
   const image = picture.querySelector(".picture__img");
@@ -134,11 +133,10 @@ function getPictureDetails(picture) {
     comments: comments,
     likes: likes,
   };
-} //функция возвращает массив с данными для редактирования тегов для картинок
-
+}
 function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
-} //функция для случайного значения
+}
 
 function clearPictures() {
   const elements = picturesBlock.querySelectorAll("a");
@@ -146,7 +144,7 @@ function clearPictures() {
   elementsArray.forEach(function (element) {
     element.parentNode.removeChild(element);
   });
-} //функция находит все ссылочные теги внутри блока для картинок и помещает в массив, после чего удаляет каждый элемент из родительского
+}
 
 function getSortedArray(arr) {
   const sortedArray = [];
@@ -160,9 +158,9 @@ function getSortedArray(arr) {
     return b.value - a.value;
   });
   return sortedArray;
-} //создаю массив для сортировки колличества комментариев и каждый элемент это объект со значением комментария и тем айди который был у комментария изначально
+}
 
-function getTenRandomId() {
+function getRandomPhotos() {
   const newArr = [];
   while (newArr.length < randomPictures.count) {
     const randomNumber = getRandomNumber(
@@ -174,4 +172,4 @@ function getTenRandomId() {
     }
   }
   return newArr;
-} //создаю пустой массив который затем наполняю случайными значениями айди которые не повторяются
+}

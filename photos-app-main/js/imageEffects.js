@@ -1,64 +1,64 @@
 import noUiSlider from "../node_modules/nouislider/dist/nouislider.mjs";
 
-const scaleBlock = document.querySelector(".scale"); //Нахожу блок с кнопками для масштаба
-const effectsList = document.querySelector(".effects__list"); //нахожу блок с выбором эффектов
-const scaleValue = document.querySelector(".scale__control--value"); //Нахожу блок со значением масштаба фото
-const imageBlock = document.querySelector(".img-upload__preview"); //нахожу картинку
+const scaleBlock = document.querySelector(".scale");
+const effectsList = document.querySelector(".effects__list");
+const scaleValue = document.querySelector(".scale__control--value");
+const imageBlock = document.querySelector(".img-upload__preview");
 const image = imageBlock.querySelector("img");
 const scaleRange = {
   max: 100,
   min: 25,
   step: 25,
 };
-const slider = document.querySelector("#slider"); //нахожу элемент который будет отвечать за слайдер
+const slider = document.querySelector("#slider");
 const chrome = {
   minValue: 0,
   maxValue: 1,
   step: 0.1,
-}; //параметры для эффекта хром
+};
 const sepia = {
   minValue: 0,
   maxValue: 1,
   step: 0.1,
-}; //параметры для эффекта сепия
+};
 const marvin = {
   minValue: 0,
   maxValue: 100,
   step: 1,
-}; //параметры для эффекта марвин
+};
 const phobos = {
   minValue: 0,
   maxValue: 3,
   step: 0.1,
-}; //параметры для эффекта фобос
+};
 const heat = {
   minValue: 1,
   maxValue: 3,
   step: 0.1,
-}; //параметры для эффекта яркости
+};
 
 export function imageEffects() {
   scaleBlock.addEventListener("click", scale);
   effectsList.addEventListener("click", getFilter);
-} //экспортирую функцию с обработчиками событий для масштаба и для фильтра
+}
 
 function scale(e) {
-  let value = +scaleValue.value.substring(0, scaleValue.value.length - 1); //переменная для получения значения масштаба - привожу к числу и удаляю последний элемент так как там процент
+  let value = +scaleValue.value.substring(0, scaleValue.value.length - 1);
   if (e.target.id === "smaller") {
     value = value - scaleRange.step;
     if (value < scaleRange.min || value > scaleRange.max) return;
     scaleValue.value = value + "%";
     console.log(scaleValue.value);
-    image.style.transform = `scale(0.${value})`; //если кликаем на минус и значение больше 25 то значение на 25 уменьшается, исправляется значение в блоке масштаба и картинка уменьшается
+    image.style.transform = `scale(0.${value})`;
   } else if (e.target.id === "bigger") {
     value = value + scaleRange.step;
     if (value < scaleRange.min || value > scaleRange.max) return;
     scaleValue.value = value + "%";
     console.log(scaleValue.value);
     if (value === scaleRange.max) {
-      image.style.transform = `scale(1)`; //при значение 100 указываю значение 1 равное 100% масштаба
+      image.style.transform = `scale(1)`;
     } else {
-      image.style.transform = `scale(0.${value})`; //если кликаем на плюс и значение меньше 100 то значение на 25 увеличивается, исправляется значение в блоке масштаба и картинка уменьшается
+      image.style.transform = `scale(0.${value})`;
     }
   }
 }
@@ -91,7 +91,7 @@ function getFilter(e) {
       createSlider("add", heat.minValue, heat.maxValue, heat.step);
       break;
   }
-} //при нажатии на фильтр с одним айди то класс соответствующий названию фильтра добавляется  к классу картинки и появляется слайдер для редактирования изображения
+}
 
 export function createSlider(action, minValue, maxValue, step) {
   if (action === "remove") {
@@ -101,7 +101,7 @@ export function createSlider(action, minValue, maxValue, step) {
   } else if (action === "add") {
     if (!slider.noUiSlider) {
       noUiSlider.create(slider, {
-        start: maxValue, //что значит 100
+        start: maxValue,
         range: {
           min: minValue,
           max: maxValue,
@@ -124,7 +124,7 @@ export function createSlider(action, minValue, maxValue, step) {
       refreshImage(value);
     });
   }
-} //если выбрано действие для удаления слайдера то мы его удаляем с помощью метода ДЕСТРОЙ, если выбрано действие добавления слайдера то мы его добавляем с переданными в функцию параметрами для слайдера
+}
 
 export function refreshImage(value) {
   switch (true) {
@@ -144,6 +144,5 @@ export function refreshImage(value) {
       image.style.filter = `brightness(${value})`;
       break;
   }
-} //когда меняется значение внутри слайдера то по второму классу у изображения определяем какой стиль нужно менять у него
-
+}
 export { slider };

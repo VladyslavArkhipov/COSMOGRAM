@@ -1,7 +1,7 @@
 import { closeWindow } from "./closeWindow.js";
 export function showError() {
-  const documentFragment = document.createDocumentFragment(); //создаю фрагмент документа, в который буду добавлять элементы фото
-  const errorMessageTemplate = document.querySelector("#error"); //нахожу шаблон с кодом для вставки фото
+  const documentFragment = document.createDocumentFragment();
+  const errorMessageTemplate = document.querySelector("#error");
   const body = document.querySelector(".body");
   const uploadPictureBlock = document.querySelector(".img-upload__overlay");
 
